@@ -1,4 +1,3 @@
-
 <#
 .SYNOPSIS
 Script to detect if VM is an Instant Clone
@@ -30,16 +29,17 @@ if (Test-Path -Path 'HKLM:\SOFTWARE\VMware, Inc.\Installer\Features_HorizonAgent
   {
     Write-Host "Instant Clone Engine Installed"
    
-    if (Test-Path -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State)
+    if (Test-Path -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga')
     
     {
-      $sysprep = Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State -Name 'ImageState'
+           
+      $modeb = Get-ItemProperty -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga' -Name 'VmForked'
       
-      if($sysprep.ImageState -eq "IMAGE_STATE_COMPLETE")
+      if($modeb.VmForked -eq "1")
   
       {
         
-        Write-Host "I am NOT an Instant Clone - Sysprep Was Used"
+        Write-Host "I am a Mode B Instant Clone"
         break
       }
 
@@ -71,11 +71,3 @@ else
  break
 
  }
-
-
-
-
-
-
-
-
