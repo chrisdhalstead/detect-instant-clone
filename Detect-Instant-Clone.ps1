@@ -40,8 +40,8 @@ if (Test-Path -Path 'HKLM:\SOFTWARE\VMware, Inc.\Installer\Features_HorizonAgent
         if($ic.VmForked -eq "1")
     
         {
-        
-          Write-Host "VM IS an Instant Clone"
+
+          Write-Host "VM is an Instant Clone"
 
           If (Get-ItemProperty -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga' -Name "ParentCustStartTimeSet" -ErrorAction SilentlyContinue) 
           {
@@ -66,9 +66,7 @@ if (Test-Path -Path 'HKLM:\SOFTWARE\VMware, Inc.\Installer\Features_HorizonAgent
         Write-Host "VM is NOT an Instant Clone"
         Break
       } 
-      
-          
-     
+   
 
     }
 
