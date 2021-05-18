@@ -28,23 +28,29 @@ if (Test-Path -Path 'HKLM:\SOFTWARE\VMware, Inc.\Installer\Features_HorizonAgent
   if ($isic.NGVC -eq "Local")
 
   {
+    Write-Host "Instant Clone Engine Installed"
    
-    $sysprep = Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State -Name 'ImageState'
+    if (Test-Path -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State)
     
-    if($sysprep.ImageState -eq "IMAGE_STATE_COMPLETE")
-
     {
+      $sysprep = Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State -Name 'ImageState'
       
-      Write-Host "I am NOT an Instant Clone - Sysprep Was Used"
-      break
+      if($sysprep.ImageState -eq "IMAGE_STATE_COMPLETE")
+  
+      {
+        
+        Write-Host "I am NOT an Instant Clone - Sysprep Was Used"
+        break
+      }
+
     }
+   
     
     else 
 
     {
       Write-Host "I AM an Instant Clone"
       break
-
     }
     
   }
