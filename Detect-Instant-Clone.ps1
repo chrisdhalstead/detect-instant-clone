@@ -32,36 +32,48 @@ if (Test-Path -Path 'HKLM:\SOFTWARE\VMware, Inc.\Installer\Features_HorizonAgent
     if (Test-Path -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga')
     
     {
-           
-      $modeb = Get-ItemProperty -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga' -Name 'VmForked'
+      If (Get-ItemProperty -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga' -Name "VmForked" -ErrorAction SilentlyContinue) 
       
-      if($modeb.VmForked -eq "1")
-  
       {
+
+        $ic = Get-ItemProperty -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga' -Name 'VmForked'
+        if($ic.VmForked -eq "1")
+    
+        {
         
-        Write-Host "I am a Mode B Instant Clone"
-        break
-      }
+          Write-Host "VM IS an Instant Clone"
+
+          If (Get-ItemProperty -Path 'HKLM:\SOFTWARE\VMware, Inc.\ViewComposer\nga' -Name "ParentCustStartTimeSet" -ErrorAction SilentlyContinue) 
+          {
+
+            Write-Host "VM is an Instant Clone with a ParentVM (Mode A)"
+
+          }
+          else 
+          {
+           
+            Write-Host "VM is an Instant Clone without a ParentVM (Mode B)"
+
+          }
+       
+        }
+    
+      } 
+    
+    Else
+     {
+    
+        Write-Host "VM is NOT an Instant Clone"
+        Break
+      } 
+      
+          
+     
 
     }
-   
-    
-    else 
 
-    {
-      Write-Host "I AM an Instant Clone"
-      break
-    }
-    
-  }
+}
 
-  else
-   {
-    
-
-  }
-  Write-Host "I am NOT an Instant Clone"
-  break
 }
 
 else
